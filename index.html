@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كيمياء السعادة</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#2F6B3B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{--bg:#FBFAF3;--card:#fff;--ink:#1B1B1B;--g1:#2F6B3B;--g2:#1B4D2A;--gt:#1F5A2D;--tg:#0FA958;--chip:#E8EEE4;--grey:#8A8A8A;--nav:#EFEFEF;--line:#DDE5D8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121612;--card:#1c231d;--ink:#ecefe9;--gt:#7fd09a;--chip:#243026;--grey:#98a39a;--nav:#1a1f1a;--line:#2d3a2f}}
+:root[data-theme="dark"]{--bg:#121612;--card:#1c231d;--ink:#ecefe9;--gt:#7fd09a;--chip:#243026;--grey:#98a39a;--nav:#1a1f1a;--line:#2d3a2f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,sans-serif}
+#app{max-width:640px;margin:0 auto;min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+header.bar{position:sticky;top:0;z-index:5;background:linear-gradient(var(--g1),var(--g2));color:#fff;text-align:center;font-size:24px;font-weight:700;padding:calc(16px + env(safe-area-inset-top,0px)) 60px 16px;min-height:72px}
+header .back{position:absolute;inset-inline-start:12px;bottom:14px;width:44px;height:44px;border-radius:14px;background:#ffffff33;border:0;display:grid;place-items:center}
+header .back svg{transform:scaleX(-1)}
+main{padding:20px}
+svg{width:24px;height:24px;fill:currentColor;flex:none}
+.welcome{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-radius:28px;padding:34px 20px;text-align:center;box-shadow:0 4px 12px #0003}
+.welcome:after{content:"✦";position:absolute;left:18px;bottom:-14px;font-size:64px;opacity:.2}
+.welcome b{font-size:20px;display:block;margin-bottom:14px}
+.row{display:flex;align-items:center;margin-top:28px;margin-bottom:14px}
+h2{margin:0;font-size:20px;flex:1}
+.chip{display:flex;gap:8px;align-items:center;background:var(--chip);color:var(--ink);border:0;border-radius:20px;padding:10px 14px;font:inherit;font-size:14px}
+.chip svg{width:20px;height:20px;color:var(--gt)}
+.hint{color:var(--grey);font-size:14px;text-align:center;margin:18px 0}
+.card{display:flex;align-items:center;gap:14px;width:100%;border:0;font:inherit;text-align:start;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-radius:28px;padding:12px 14px;margin-bottom:14px;box-shadow:0 4px 10px #0003;cursor:pointer}
+.card .ic{width:56px;height:56px;border-radius:16px;background:#ffffff33;border:1px solid #ffffff55;display:grid;place-items:center}
+.card .ic svg{width:28px;height:28px}
+.card span{flex:1;font-size:18px;font-weight:700}
+.card .ch{width:40px;height:40px;border-radius:12px;background:#ffffff33;display:grid;place-items:center}
+.light{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);font:inherit;text-align:start;background:var(--card);color:var(--ink);border-radius:20px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+.light svg:first-child{color:var(--gt)}.light span{flex:1;font-weight:700;font-size:17px}.light svg:last-child{color:var(--grey);width:22px;height:22px}
+input[type=search]{width:100%;border:0;background:var(--chip);color:var(--ink);border-radius:20px;padding:12px 16px;font:inherit;font-size:17px;margin-bottom:16px}
+nav{position:fixed;bottom:0;inset-inline:0;background:var(--nav);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));z-index:6}
+nav button{flex:1;border:0;background:none;color:var(--grey);font:inherit;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button.on{color:var(--gt);font-weight:700}nav svg{width:26px;height:26px}
+.reader{background:var(--card);border-radius:28px 28px 0 0;margin:14px 14px 0;padding:28px 22px 60px;min-height:80vh;text-align:center;font-family:"Amiri Quran","Scheherazade New","Noto Naskh Arabic","Traditional Arabic",serif;font-weight:700}
+.reader p{margin:0 0 18px;line-height:1.9}.c1{font-size:19px}.ttl{font-size:22px;color:var(--tg)}.c3{font-size:17px}.bsm{font-size:30px}
+.body{text-align:justify;text-align-last:right;line-height:2;font-size:var(--fs,24px);margin:0 0 26px}
+.m,.g{color:var(--tg);font-style:normal}.end{font-size:20px;color:var(--tg)}
+.rbar{display:flex;align-items:center;gap:12px;margin:0 14px;padding:12px 14px;border-radius:28px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;position:sticky;top:calc(var(--bt,0px));z-index:4}
+.rbar b{flex:1;font-size:19px}.rbar button{width:52px;height:52px;border-radius:16px;border:0;background:#ffffff33;color:#fff;display:grid;place-items:center}
+.rbar button:first-child{background:#fff;color:var(--g2)}.rbar button:first-child svg{transform:scaleX(-1)}
+.set{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px;margin-bottom:14px}
+.set input{width:100%}dialog{border:0;border-radius:20px;background:var(--card);color:var(--ink);width:min(420px,90vw);padding:18px}
+dialog label{display:flex;gap:10px;padding:10px 0;font-size:17px}dialog::backdrop{background:#0008}
+dialog menu{display:flex;gap:10px;justify-content:flex-start;padding:0;margin:12px 0 0}dialog button{font:inherit;border:0;border-radius:14px;padding:10px 18px;background:var(--chip);color:var(--ink)}dialog button.ok{background:var(--g1);color:#fff}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const IC={home:"M10,20v-6h4v6h5v-8h3L12,3 2,12h3v8z",search:"M15.5,14h-.79l-.28-.27A6.47,6.47 0 0 0 16,9.5 6.5,6.5 0 1 0 9.5,16c1.61,0 3.09-.59 4.23-1.57l.27.28v.79l5,4.99L20.49,19l-4.99-5zm-6,0C7.01,14 5,11.99 5,9.5S7.01,5 9.5,5 14,7.01 14,9.5 11.99,14 9.5,14z",mark:"M17,3H7c-1.1,0-1.99.9-1.99,2L5,21l7-3 7,3V5c0-1.1-.9-2-2-2z",gear:"M19.14,12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4,2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24,0-.43.17-.47.41L9.25,5.35C8.66,5.59 8.12,5.92 7.63,6.29L5.24,5.33c-.22-.08-.47,0-.59.22L2.74,8.87c-.12.21-.08.47.12.61l2.03,1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03,1.58c-.18.14-.23.41-.12.61l1.92,3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36,2.54c.05.24.24.41.48.41h3.84c.24,0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47,0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6,1.62 3.6,3.6-1.62,3.6-3.6,3.6z",chev:"M15.41,7.41L14,6l-6,6 6,6 1.41-1.41L10.83,12z",add:"M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z",heart:"M16.5,3c-1.74,0-3.41.81-4.5,2.09C10.91,3.81 9.24,3 7.5,3 4.42,3 2,5.42 2,8.5c0,3.78 3.4,6.86 8.55,11.54L12,21.35l1.45-1.32C18.6,15.36 22,12.28 22,8.5 22,5.42 19.58,3 16.5,3zm-4.4,15.55l-.1.1-.1-.1C7.14,14.24 4,11.39 4,8.5 4,6.5 5.5,5 7.5,5c1.54,0 3.04.99 3.57,2.36h1.87C13.46,5.99 14.96,5 16.5,5c2,0 3.5,1.5 3.5,3.5 0,2.89-3.14,5.74-7.9,10.05z",heartF:"M12,21.35l-1.45-1.32C5.4,15.36 2,12.28 2,8.5 2,5.42 4.42,3 7.5,3c1.74,0 3.41.81 4.5,2.09C13.09,3.81 14.76,3 16.5,3 19.58,3 22,5.42 22,8.5c0,3.78-3.4,6.86-8.55,11.54z",book:"M21,5c-1.11-.35-2.33-.5-3.5-.5-1.95,0-4.05.4-5.5,1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45,4.9 1,6v14.65c0,.25.25.5.5.5.1,0 .15-.05.25-.05C3.1,20.45 5.05,20 6.5,20c1.95,0 4.05.4 5.5,1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65,0 3.35.3 4.75,1.05.1.05.15.05.25.05.25,0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0,13.5c-1.1-.35-2.3-.5-3.5-.5-1.7,0-4.15.65-5.5,1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2,0 2.4.15 3.5.5z",stars:"M19,9l1.25-2.75L23,5l-2.75-1.25L19,1l-1.25,2.75L15,5l2.75,1.25zM11.5,9.5L9,4 6.5,9.5 1,12l5.5,2.5L9,20l2.5-5.5L17,12zM19,15l-1.25,2.75L15,19l2.75,1.25L19,23l1.25-2.75L23,19l-2.75-1.25z"};
+const ic=n=>`<svg viewBox="0 0 24 24"><path d="${IC[n]}"/></svg>`;
+
+/* القائمة تُقرأ من duas/library.json ويمكن تعديلها من صفحة admin.html (هذه قيم احتياطية) */
+let SECS=[{id:'salawat',title:'روضة الصلوات النبوية',icon:'stars'},{id:'awrad',title:'الأدعية والأوراد',icon:'book'}];
+let DUAS=[{id:'kimiya',title:'كِيمْيَاءُ السَّعَادَةِ',file:'kimiya.txt',sec:'salawat'}];
+async function init(){try{const r=await fetch('duas/library.json',{cache:'no-store'});if(r.ok){const j=await r.json();if(j.sections&&j.duas){SECS=j.sections;DUAS=j.duas;render()}}}catch(e){}}
+
+const $=s=>document.querySelector(s),app=$('#app');
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let tab=0,cur=null,sec=null,q='',fs=ls.get('fs',24),deferred=null;
+const dua=id=>DUAS.find(d=>d.id===id);
+const norm=s=>s.replace(/[\u064B-\u0652\u0670\u0640\u200B]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+const texts={};
+async function load(d){if(texts[d.id])return texts[d.id];let t='';
+ if(window.EMBED&&EMBED[d.id])t=EMBED[d.id];else try{t=await (await fetch('duas/'+d.file)).text()}catch(e){t='تعذّر تحميل النص'}
+ return texts[d.id]=t}
+const hijri=()=>{try{return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-arab',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date())+' هـ'}catch(e){return ''}};
+const bar=(t,back)=>`<header class="bar">${back?`<button class="back" onclick="history.back()">${ic('chev')}</button>`:''}${t}</header>`;
+const lrow=(d,i)=>`<button class="light" onclick="openDua('${d.id}')">${ic(i||'book')}<span>${d.title}</span>${ic('chev')}</button>`;
+const nav=()=>`<nav>${[['الرئيسية','home'],['البحث','search'],['محفوظاتي','mark'],['الإعدادات','gear']].map((x,i)=>`<button class="${i==tab?'on':''}" onclick="go(${i})">${ic(x[1])}${x[0]}</button>`).join('')}</nav>`;
+function go(i){tab=i;sec=null;render()}
+function openDua(id){cur=id;location.hash='reader';readerView()}
+addEventListener('hashchange',()=>{if(location.hash!=='#reader'&&cur){saveMark();cur=null;render()}});
+
+function render(){
+ if(cur)return;
+ let h='';
+ if(sec){const s=SECS.find(x=>x.id===sec);h=bar(s.title,1)+`<main>${DUAS.filter(d=>d.sec===sec).map(d=>`<button class="card" onclick="openDua('${d.id}')"><div class="ic">${ic(s.icon)}</div><span>${d.title}</span><div class="ch">${ic('chev')}</div></button>`).join('')||'<p class="hint">لا توجد أدعية في هذا القسم بعد</p>'}</main>`;app.innerHTML=h;return}
+ h=bar('كيمياء السعادة');
+ if(tab==0){const pins=ls.get('pins',[]).map(dua).filter(Boolean);
+  h+=`<main><div class="welcome"><b>مرحباً بك، لا تنس أوردادك</b>${hijri()}</div>
+  <div class="row"><h2>وصول سريع</h2><button class="chip" onclick="pinDlg()">${ic('add')}إضافة</button></div>
+  ${pins.length?pins.map(d=>`<div oncontextmenu="return false" ontouchstart="lp(event,'${d.id}')" ontouchend="clearTimeout(window.lt)">${lrow(d)}</div>`).join('')+'<p class="hint" style="margin:2px">اضغط مطولاً على الدعاء لإزالته</p>':'<p class="hint">اضغط على "إضافة" لتخصيص أورادك وإضافتها للوصول السريع</p>'}
+  <h2 style="margin:28px 0 14px">الأقسام الرئيسية</h2>
+  ${SECS.map(s=>`<button class="card" onclick="sec='${s.id}';render()"><div class="ic">${ic(s.icon)}</div><span>${s.title}</span><div class="ch">${ic('chev')}</div></button>`).join('')}</main>`}
+ if(tab==1)h+=`<main><input type="search" id="q" placeholder="ابحث في الأدعية" value="${q}" oninput="q=this.value;res()"><div id="res"></div></main>`;
+ if(tab==2){const l=DUAS.filter(d=>ls.get('bm_'+d.id,-1)>=0);h+=`<main><h2 style="margin-bottom:14px">محفوظاتي</h2>${l.map(d=>lrow(d,'mark')).join('')||'<p class="hint">اضغط على القلب داخل أي دعاء لحفظ موضع قراءتك هنا</p>'}</main>`}
+ if(tab==3)h+=`<main><h2 style="margin-bottom:14px">الإعدادات</h2><div class="set"><b>حجم خط القراءة</b><input type="range" min="16" max="40" value="${fs}" oninput="fs=+this.value;ls.set('fs',fs);$('#pv').style.fontSize=fs+'px'"><p id="pv" style="text-align:center;font-weight:700;font-size:${fs}px;margin:10px 0 0">اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ</p></div>
+  <div class="set"><b>المظهر</b><div style="display:flex;gap:8px;margin-top:10px">${[['auto','تلقائي'],['light','فاتح'],['dark','داكن']].map(t=>`<button class="chip" onclick="theme('${t[0]}')">${t[1]}</button>`).join('')}</div></div>
+  <div class="set"><b>تثبيت التطبيق</b><p style="margin:8px 0">${deferred?'':'أندرويد: قائمة المتصفح ← «تثبيت التطبيق». آيفون: زر المشاركة ← «إضافة إلى الشاشة الرئيسية».'}</p>${deferred?'<button class="chip" onclick="inst()">تثبيت الآن</button>':''}</div></main>`;
+ app.innerHTML=h+nav();if(tab==1)res()}
+function res(){const n=norm(q.trim());Promise.all(DUAS.map(async d=>[d,n===''||norm(d.title).includes(n)||norm(await load(d)).includes(n)])).then(r=>{const l=r.filter(x=>x[1]).map(x=>x[0]);const e=$('#res');if(e)e.innerHTML=l.map(d=>lrow(d)).join('')||'<p class="hint">لا توجد نتائج</p>'})}
+function lp(e,id){window.lt=setTimeout(()=>{const p=ls.get('pins',[]).filter(x=>x!==id);ls.set('pins',p);render()},700)}
+function pinDlg(){const p=ls.get('pins',[]);const d=document.createElement('dialog');d.innerHTML=`<b>إضافة إلى الوصول السريع</b>${DUAS.map(x=>`<label><input type="checkbox" value="${x.id}" ${p.includes(x.id)?'checked':''}>${x.title}</label>`).join('')}<menu><button class="ok">تم</button><button value="x">إلغاء</button></menu>`;document.body.append(d);
+ d.querySelector('.ok').onclick=()=>{ls.set('pins',[...d.querySelectorAll('input:checked')].map(i=>i.value));d.close();render()};d.onclose=()=>d.remove();d.showModal()}
+function theme(t){ls.set('theme',t);applyTheme()}
+function applyTheme(){const t=ls.get('theme','auto');if(t=='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme',t)}
+const clean=s=>s.replace(/\u200b/g,'').replace(/\s+/g,' ').trim();
+function parse(raw,d){raw=raw.replace(/\u200b/g,'');const i=raw.indexOf('───');let h='',body=raw;
+ if(i>=0){const nl=raw.indexOf('\n',i);body=nl>=0?raw.slice(nl+1):'';const p=raw.slice(0,i).split('۞').map(clean).filter(Boolean);
+  if(p[0])h+=`<p class="c1">${p[0]}</p>`;if(p[1])h+=`<p class="ttl">${p[1]}</p>`;if(p[2])h+=`<p class="c3">${p[2]}</p>`;if(p[3])h+=`<p class="c3">${p[3]}</p>`;if(p.length>4)h+=`<p class="c3">${p.slice(4).join(' ')}</p>`;h+='<p class="bsm">﷽</p>'}
+ else h+=`<p class="ttl">${d.title}</p>`;
+ const L=body.trim().split('\n').filter(l=>l.trim()),last=(L[L.length-1]||'').trim(),cl=L.length>1&&last.startsWith('۞');
+ const main=(cl?L.slice(0,-1):L).join(' ').replace(/\s*۞\s*/g,' <i class="m">⊙</i> ').replace(/\s+/g,' ').trim().replace(/ا[\u064B-\u0652\u0670]*ل[\u064B-\u0652\u0670]*ل[\u064B-\u0652\u0670]*ه[\u064B-\u0652\u0670]*م[\u064B-\u0652\u0670]*/g,'<b class="g">$&</b>');
+ return h+`<div class="body" id="body">${main}</div>`+(cl?`<p class="end">${clean(last.replace(/۞/g,''))}</p>`:'')}
+async function readerView(){const d=dua(cur),raw=await load(d);
+ app.innerHTML=`<div class="rbar"><button onclick="history.back()">${ic('chev')}</button><b>${d.title}</b><button id="hb" onclick="toggleMark()">${ic(ls.get('bm_'+cur,-1)>=0?'heartF':'heart')}</button></div><div class="reader" style="--fs:${fs}px">${parse(raw,d)}</div>`;
+ const y=ls.get('bm_'+cur,-1);scrollTo(0,y>=0?y:0)}
+function toggleMark(){if(ls.get('bm_'+cur,-1)>=0)ls.set('bm_'+cur,-1);else ls.set('bm_'+cur,scrollY);$('#hb').innerHTML=ic(ls.get('bm_'+cur,-1)>=0?'heartF':'heart')}
+function saveMark(){if(cur&&ls.get('bm_'+cur,-1)>=0)ls.set('bm_'+cur,scrollY)}
+addEventListener('pagehide',saveMark);
+/* تكبير الخط بالقرص */
+let d0=0;const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+addEventListener('touchstart',e=>{if(e.touches.length==2)d0=dist(e.touches)},{passive:true});
+addEventListener('touchmove',e=>{if(cur&&e.touches.length==2&&d0){const d1=dist(e.touches);fs=Math.max(16,Math.min(44,fs*d1/d0));d0=d1;const r=$('.reader');if(r)r.style.setProperty('--fs',fs+'px')}},{passive:true});
+addEventListener('touchend',()=>{if(d0){d0=0;ls.set('fs',Math.round(fs))}});
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;if(!cur&&tab==3)render()});
+function inst(){deferred.prompt();deferred=null;render()}
+applyTheme();render();init();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>

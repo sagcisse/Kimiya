@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>إدارة المحتوى</title>
+<style>
+:root{--bg:#FBFAF3;--card:#fff;--ink:#1B1B1B;--g1:#2F6B3B;--g2:#1B4D2A;--chip:#E8EEE4;--grey:#6f7a71;--line:#DDE5D8;--tg:#0FA958}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121612;--card:#1c231d;--ink:#ecefe9;--chip:#243026;--grey:#98a39a;--line:#2d3a2f}}
+:root[data-theme="dark"]{--bg:#121612;--card:#1c231d;--ink:#ecefe9;--chip:#243026;--grey:#98a39a;--line:#2d3a2f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+header{background:linear-gradient(var(--g1),var(--g2));color:#fff;text-align:center;font-size:22px;font-weight:700;padding:18px}
+main{max-width:640px;margin:0 auto;padding:16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
+h3{margin:0 0 10px}label{display:block;font-size:14px;color:var(--grey);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--chip);border:0;border-radius:14px;padding:11px 14px}
+textarea{min-height:300px;line-height:1.9;font-size:19px;resize:vertical}
+button{font:inherit;border:0;border-radius:14px;padding:11px 16px;background:var(--chip);color:var(--ink);cursor:pointer}
+button.p{background:var(--g1);color:#fff;font-weight:700}button.d{background:#b3261e;color:#fff}
+.r{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#msg{position:sticky;bottom:8px;padding:12px;border-radius:14px;background:var(--g2);color:#fff;display:none}
+#msg.e{background:#b3261e}
+.it{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}.it b{flex:1}
+#pv{line-height:2;font-size:20px;font-weight:700;text-align:justify;display:none}.m,.g{color:var(--tg);font-style:normal}
+small{color:var(--grey)}
+</style>
+</head>
+<body>
+<header>إدارة الأدعية والمقالات</header>
+<main>
+<details class="box" id="cfgbox"><summary><b>إعدادات GitHub</b> <small>(مرة واحدة)</small></summary>
+ <label>اسم الحساب (owner)</label><input id="o">
+ <label>اسم المستودع (repo)</label><input id="r">
+ <label>الفرع (branch)</label><input id="b" value="main">
+ <label>رمز الوصول (Token)</label><input id="t" type="password" placeholder="github_pat_...">
+ <small>أنشئ Fine-grained token من GitHub ← Settings ← Developer settings، واختر هذا المستودع فقط، وصلاحية Contents: Read and write. يُحفظ الرمز في متصفحك فقط.</small>
+ <div class="r"><button class="p" onclick="saveCfg()">حفظ الإعدادات</button></div>
+</details>
+
+<div class="box">
+ <h3 id="ft">إضافة دعاء جديد</h3>
+ <label>العنوان</label><input id="title">
+ <label>القسم</label><select id="sec" onchange="ns.style.display=this.value=='_new'?'block':'none'"></select>
+ <input id="ns" placeholder="اسم القسم الجديد" style="display:none;margin-top:8px">
+ <label>النص</label><textarea id="txt" dir="rtl" placeholder="الصق نص الدعاء هنا"></textarea>
+ <small>ضع ۞ بين المقاطع (تظهر ⊙ خضراء). وإن أردت سطر ختام أخضر فاجعل آخر سطر يبدأ بـ ۞</small>
+ <div class="r"><button onclick="ins()">إدراج ۞</button><button onclick="prev()">معاينة</button></div>
+ <div id="pv" class="box" style="margin-top:12px"></div>
+ <div class="r"><button class="p" onclick="publish()">نشر على GitHub</button><button onclick="dl()">تنزيل الملفات</button><button onclick="reset()">جديد</button></div>
+</div>
+
+<div class="box"><h3>المحتوى الحالي</h3><div id="list"></div></div>
+<div id="msg"></div>
+</main>
+<script>
+const $=s=>document.getElementById(s);
+const ls={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let L={sections:[],duas:[]},editing=null;
+const m=(t,e)=>{const x=$('msg');x.textContent=t;x.className=e?'e':'';x.style.display='block';clearTimeout(m.t);m.t=setTimeout(()=>x.style.display='none',6000)};
+function cfg(){return ls.get('gh',{})}
+function initCfg(){let c=cfg();if(!c.o&&location.hostname.endsWith('github.io')){c.o=location.hostname.split('.')[0];c.r=location.pathname.split('/')[1]||c.o+'.github.io'}
+ $('o').value=c.o||'';$('r').value=c.r||'';$('b').value=c.b||'main';$('t').value=c.t||'';if(!c.t)$('cfgbox').open=true}
+function saveCfg(){ls.set('gh',{o:$('o').value.trim(),r:$('r').value.trim(),b:$('b').value.trim()||'main',t:$('t').value.trim()});m('تم حفظ الإعدادات')}
+/* واجهة GitHub API */
+const u8=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+const fromB=b=>new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g,'')),c=>c.charCodeAt(0)));
+async function api(path,method,body){const c=cfg();if(!c.t)throw new Error('أدخل إعدادات GitHub أولاً');
+ const r=await fetch(`https://api.github.com/repos/${c.o}/${c.r}/contents/${path}`+(method?'':`?ref=${c.b}`),{method:method||'GET',headers:{Authorization:'Bearer '+c.t,Accept:'application/vnd.github+json'},body:body&&JSON.stringify({...body,branch:c.b})});
+ if(r.status===404&&!method)return null;const j=await r.json();if(!r.ok)throw new Error(j.message||'خطأ');return j}
+const get=async p=>{const j=await api(p);return j&&{sha:j.sha,text:fromB(j.content)}};
+const put=(p,t,msg,sha)=>api(p,'PUT',{message:msg,content:u8(t),sha});
+/* القائمة */
+async function loadLib(){try{const r=await fetch('duas/library.json?t='+Date.now());L=await r.json()}catch(e){m('تعذّر تحميل المكتبة',1)}draw()}
+function draw(){$('sec').innerHTML=L.sections.map(s=>`<option value="${s.id}">${s.title}</option>`).join('')+'<option value="_new">+ قسم جديد…</option>';
+ $('list').innerHTML=L.duas.map(d=>`<div class="it"><b>${d.title}</b><button onclick="edit('${d.id}')">تعديل</button><button class="d" onclick="del('${d.id}')">حذف</button></div>`).join('')||'<small>لا يوجد محتوى</small>'}
+async function edit(id){const d=L.duas.find(x=>x.id===id);editing=id;$('ft').textContent='تعديل: '+d.title;$('title').value=d.title;$('sec').value=d.sec;
+ try{$('txt').value=await (await fetch('duas/'+d.file+'?t='+Date.now())).text()}catch(e){m('تعذّر تحميل النص',1)}scrollTo(0,0)}
+function reset(){editing=null;$('ft').textContent='إضافة دعاء جديد';$('title').value='';$('txt').value='';$('pv').style.display='none'}
+function ins(){const t=$('txt'),a=t.selectionStart;t.setRangeText(' ۞ ',a,t.selectionEnd,'end');t.focus()}
+function prev(){const p=$('pv');p.innerHTML=$('txt').value.replace(/\u200b/g,'').replace(/[<>&]/g,'').replace(/\s*۞\s*/g,' <i class="m">⊙</i> ').replace(/\n/g,'<br>').replace(/ا[\u064B-\u0652\u0670]*ل[\u064B-\u0652\u0670]*ل[\u064B-\u0652\u0670]*ه[\u064B-\u0652\u0670]*م[\u064B-\u0652\u0670]*/g,'<b class="g">$&</b>');p.style.display='block'}
+/* تجهيز البيانات */
+function build(){const title=$('title').value.trim(),text=$('txt').value;if(!title||!text.trim())throw new Error('اكتب العنوان والنص');
+ const lib=JSON.parse(JSON.stringify(L));let sec=$('sec').value;
+ if(sec=='_new'){const n=$('ns').value.trim();if(!n)throw new Error('اكتب اسم القسم الجديد');sec='s'+Date.now().toString(36);lib.sections.push({id:sec,title:n,icon:'book'})}
+ let d=editing&&lib.duas.find(x=>x.id===editing);
+ if(!d){const id='d'+Date.now().toString(36);d={id,title,file:id+'.txt',sec};lib.duas.push(d)}else{d.title=title;d.sec=sec}
+ return{lib,d,text}}
+async function publish(){try{const{lib,d,text}=build();m('جارٍ النشر…');
+ const f=await get('duas/'+d.file);await put('duas/'+d.file,text,'إضافة/تعديل: '+d.title,f&&f.sha);
+ const l=await get('duas/library.json');await put('duas/library.json',JSON.stringify(lib,null,2),'تحديث الفهرس',l&&l.sha);
+ L=lib;draw();reset();m('تم النشر ✓ سيظهر في الموقع خلال دقائق')}catch(e){m(e.message,1)}}
+async function del(id){const d=L.duas.find(x=>x.id===id);if(!confirm('حذف «'+d.title+'» ؟'))return;
+ try{const lib=JSON.parse(JSON.stringify(L));lib.duas=lib.duas.filter(x=>x.id!==id);
+ const f=await get('duas/'+d.file);if(f)await api('duas/'+d.file,'DELETE',{message:'حذف: '+d.title,sha:f.sha});
+ const l=await get('duas/library.json');await put('duas/library.json',JSON.stringify(lib,null,2),'تحديث الفهرس',l&&l.sha);
+ L=lib;draw();m('تم الحذف')}catch(e){m(e.message,1)}}
+function save(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));a.download=name;a.click()}
+function dl(){try{const{lib,d,text}=build();save(d.file,text);setTimeout(()=>save('library.json',JSON.stringify(lib,null,2)),400);m('ضع الملفين في مجلد duas/ بالمستودع')}catch(e){m(e.message,1)}}
+initCfg();loadLib();
+</script>
+</body>
+</html>
