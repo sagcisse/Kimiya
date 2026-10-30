@@ -1,0 +1,9 @@
+{
+  "sections": [
+    {"id": "salawat", "title": "روضة الصلوات النبوية", "icon": "stars"},
+    {"id": "awrad", "title": "الأدعية والأوراد", "icon": "book"}
+  ],
+  "duas": [
+    {"id": "kimiya", "title": "كِيمْيَاءُ السَّعَادَةِ", "file": "kimiya.txt", "sec": "salawat"}
+  ]
+}
